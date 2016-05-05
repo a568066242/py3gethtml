@@ -1,0 +1,2 @@
+py3gethtml
+you can import it and call gethtml(url) url is your web url that you want to get
