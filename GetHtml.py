@@ -1,16 +1,25 @@
 import urllib.request
 import urllib.response
+import urllib.error
 import chardet
 import gzip
 from io import BytesIO
 
 DETECT_TIME = 5
+URLERROR_REPEAT_TIME = 3
 USER_AGENT = "lzj"
 
 def getHtml(url):
     request = urllib.request.Request(url)
     request.add_header("User-Agent", USER_AGENT)
-    response = urllib.request.urlopen(request)
+    time = 0
+    while(time < URLERROR_REPEAT_TIME):
+        try:
+            response = urllib.request.urlopen(request)
+            time = URLERROR_REPEAT_TIME
+        except urllib.error.URLError :
+            time += 1
+
     page=None
     if(response.headers.get('Content-Encoding') == 'gzip'):
         #decompress
